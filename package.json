@@ -1,0 +1,17 @@
+{
+    "name": "ca-api",
+    "version": "1.0.0",
+    "description": "This is the API to be used for the B8IT148 Projects",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    },
+    "author": "Ehtisham Yasin",
+    "license": "Distributable with modifications for academic purposes only",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "mongoose": "^5.11.19"
+    }
+}
