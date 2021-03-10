@@ -73,7 +73,7 @@ router.post("/login", async(req, res)=>{
     console.log(req.body);
     const user = await Users.findOne({email: req.body.email, password: req.body.password}, (err, result)=>{
         if(err){
-            res.send(err);
+            res.send({error: err});
         }
     });
 
@@ -84,7 +84,7 @@ router.post("/login", async(req, res)=>{
         session.logged_in = "true";
         res.send({status: "success", "user": user});
     } else {
-        res.status(404);
+        res.status(200);
         res.send({ error: "Couldn't log you in, please check your credentials and retry" });
     }
     
