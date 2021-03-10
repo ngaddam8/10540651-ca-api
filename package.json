@@ -10,6 +10,7 @@
     "author": "Ehtisham Yasin",
     "license": "Distributable with modifications for academic purposes only",
     "dependencies": {
+        "cors": "^2.8.5",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "mongoose": "^5.11.19"

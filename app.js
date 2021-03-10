@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const session = require("express-session");
 const mongoose = require("mongoose");
 const routes = require("./routes");
@@ -11,6 +12,7 @@ mongoose.connect("mongodb://localhost:27017/ca-db", {useNewUrlParser: true}).the
         resave: false
     }));
     app.use(express.json());
+    app.use(cors());
     app.use("/api", routes);
     
     app.listen(3000, ()=>{

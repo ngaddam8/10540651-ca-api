@@ -53,7 +53,7 @@ router.get("/users", async (req, res)=>{
 
 router.post("/register", async(req, res)=>{
     const user = new Users({
-        id: req.body.id,
+        //id: req.body.id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -70,6 +70,7 @@ router.post("/register", async(req, res)=>{
 
 router.post("/login", async(req, res)=>{
     var session = req.session;
+    console.log(req.body);
     const user = await Users.findOne({email: req.body.email, password: req.body.password}, (err, result)=>{
         if(err){
             res.send(err);
@@ -108,8 +109,10 @@ router.get("/loggedInUser", async(req, res)=>{
     }
 });
 
-router.get("logout", async(req, res)=>{
+router.get("/logout", async(req, res)=>{
     var session = req.session;
     session.user = null;
     session.logged_in = "false";
+    res.status(200);
+    res.send("Logged Out");
 });
