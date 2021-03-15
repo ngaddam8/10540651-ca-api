@@ -4,6 +4,8 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const routes = require("./routes");
 
+console.log(process.argv);
+
 mongoose.connect("mongodb://localhost:27017/ca-db", {useNewUrlParser: true}).then(()=>{
     const app = express();
     app.use(session({
@@ -12,7 +14,7 @@ mongoose.connect("mongodb://localhost:27017/ca-db", {useNewUrlParser: true}).the
         resave: false
     }));
     app.use(express.json());
-    app.use(cors());
+    app.use(cors({credentials: true, origin: process.argv[2]}));
     app.use("/api", routes);
     
     app.listen(3000, ()=>{
