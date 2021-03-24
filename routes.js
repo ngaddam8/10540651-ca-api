@@ -21,6 +21,16 @@ router.get("/adverts/:id", async (req, res)=>{
     }
 });
 
+router.get("/myAdverts/:id", async (req, res)=>{
+    try{
+        const adverts = await Adverts.find({author: req.params.id});
+        res.send(adverts);
+    } catch {
+        res.status(404);
+        res.send({error: "The adverts you're looking for doesn't exist!"});
+    }
+});
+
 router.post("/createAd", async(req, res)=>{
     const advert = new Adverts({
         id : req.body.id,
