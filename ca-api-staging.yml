@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 10540651-ca-mongodb-staging
+spec:
+  selector:
+    matchLabels:
+      deployment-name: 10540651-ca-mongodb-staging
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment-name: 10540651-ca-mongodb-staging
+    spec:
+      containers:
+        - name: 10540651-ca-mongodb-container-staging
+          image: mongo
+          env:
+           - name: MONGO-INITDB_DATABASE
+             value: database
+          ports:
+           - containerPort: 27017  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: ca-mongodb-staging-cluster-service
+  name: ca-mongodb-staging-cluster-service
+spec:
+  type: LoadBalancer
+  ports:
+  - name: ca-mongodb-staging-cluster-service-port
+    port: 27017
+    targetPort: 27017
+    protocol: TCP
+  selector:
+    deployment-name: 10540651-ca-mongodb-staging
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 10540651-ca-api-staging
+spec:
+  selector:
+    matchLabels:
+      deployment-name: 10540651-ca-api-staging
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment-name: 10540651-ca-api-staging
+    spec:
+      containers:
+        - name: 10540651-ca-api-staging-container
+          image: naveen10540651/ca-api-staging-image:v1
+	        imagePullPolicy: Always
+	        ports:
+          - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: ca-api-staging-cluster-service
+  name: ca-api-staging-cluster-service-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - name: ca-api-staging-load-balancer-service-port
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    deployment-name: 10540651-ca-api-staging
+

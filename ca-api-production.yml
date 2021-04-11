@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 10540651-ca-mongodb-production
+spec:
+  selector:
+    matchLabels:
+      deployment-name: 10540651-ca-mongodb-production
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment-name: 10540651-ca-mongodb-production
+    spec:
+      containers:
+        - name: 10540651-ca-mongodb-container-production
+          image: mongo
+          env:
+           - name: MONGO-INITDB_DATABASE
+             value: database
+          ports:
+           - containerPort: 27017  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: ca-mongodb-production-cluster-service
+  name: ca-mongodb-production-cluster-service
+spec:
+  type: LoadBalancer
+  ports:
+  - name: ca-mongodb-production-cluster-service-port
+    port: 27017
+    targetPort: 27017
+    protocol: TCP
+  selector:
+    deployment-name: 10540651-ca-mongodb-production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 10540651-ca-api-production
+spec:
+  selector:
+    matchLabels:
+      deployment-name: 10540651-ca-api-production
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        deployment-name: 10540651-ca-api-production
+    spec:
+      containers:
+        - name: 10540651-ca-api-production-container
+          image: naveen10540651/ca-api-production-image:v1
+	        imagePullPolicy: Always
+	        ports:
+          - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: ca-api-production-cluster-service
+  name: ca-api-production-cluster-service-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - name: ca-api-production-load-balancer-service-port
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    deployment-name: 10540651-ca-api-production
+
